@@ -64,12 +64,21 @@ html,body,[class*="css"]{font-family:'DM Sans',sans-serif}
 .topic-sub{color:#b9c9e9;font-size:.72rem;margin:.42rem 0 0 3.55rem}
 .stButton>button{border:1px solid rgba(139,112,255,.52);border-radius:12px;background:linear-gradient(100deg,#6427c9,#174b85);color:#fff;font-weight:800;min-height:2.75rem;transition:all .18s ease}
 .stButton>button:hover{border-color:#36e4f4;background:linear-gradient(100deg,#7c35e8,#087c9d);color:#fff;box-shadow:0 0 20px rgba(48,191,238,.2)}
-/* chat */
+/* Chat: mensajes y un único campo de consulta integrado al fondo */
 [data-testid="stChatMessage"]{border:1px solid rgba(123,146,220,.25);border-radius:18px;background:linear-gradient(130deg,rgba(25,42,82,.94),rgba(19,32,67,.94));padding:.9rem 1rem;box-shadow:0 10px 28px rgba(0,0,0,.16)}
 [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"]{color:#f3f6ff}
 [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]){background:linear-gradient(110deg,rgba(43,58,112,.95),rgba(31,49,91,.95));}
-.stChatInput textarea{border:1px solid rgba(146,112,255,.65)!important;border-radius:16px!important;background:linear-gradient(100deg,#121d3c,#18284c)!important;color:#fff!important}
-.stChatInput textarea:focus{border-color:#27d9f2!important;box-shadow:0 0 0 1px #27d9f2!important}
+/* Streamlit fija chat_input en un contenedor inferior; se elimina su franja negra */
+[data-testid="stBottom"],
+[data-testid="stBottom"] > div,
+[data-testid="stBottom"] [data-testid="stChatInput"],
+[data-testid="stChatInput"] > div{background:transparent!important;background-color:transparent!important;box-shadow:none!important;border-top:0!important}
+[data-testid="stBottom"]{padding:0 1.5rem 1rem!important}
+[data-testid="stChatInput"]{border:1px solid rgba(139,112,255,.55)!important;border-radius:17px!important;background:linear-gradient(110deg,rgba(18,29,60,.98),rgba(24,40,76,.98))!important;box-shadow:0 8px 26px rgba(0,0,0,.22)!important;padding:.15rem .35rem!important}
+[data-testid="stChatInput"] textarea{border:0!important;border-radius:13px!important;background:transparent!important;color:#fff!important;box-shadow:none!important}
+[data-testid="stChatInput"] textarea:focus{border:0!important;box-shadow:none!important}
+[data-testid="stChatInput"] button{background:linear-gradient(135deg,#7138d4,#126b91)!important;border:1px solid rgba(74,216,241,.4)!important;border-radius:12px!important;color:#fff!important}
+[data-testid="stChatInput"] button:hover{box-shadow:0 0 18px rgba(39,217,242,.3)!important}
 [data-testid="stExpander"]{border:1px solid rgba(153,119,255,.45);border-radius:15px;background:linear-gradient(110deg,rgba(35,39,91,.88),rgba(18,45,77,.88))}
 [data-testid="stAlert"]{border-radius:14px}
 hr{border-color:rgba(146,165,230,.22)}
@@ -222,7 +231,7 @@ st.markdown('<div class="section-title" style="margin-top:1.2rem">💬 &nbsp; Co
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if not st.session_state.messages:
-    st.markdown('<div style="border:1px solid rgba(125,149,224,.22);border-radius:16px;padding:1rem 1.2rem;background:linear-gradient(110deg,rgba(24,42,79,.85),rgba(17,34,66,.85));color:#cbd8f5">¡Hola! Soy tu asistente académico. Escribe tu consulta o elige uno de los temas para comenzar.</div>', unsafe_allow_html=True)
+    st.markdown('<div style="display:flex;gap:12px;align-items:flex-start;border:1px solid rgba(125,149,224,.22);border-radius:18px;padding:1.05rem 1.25rem;background:linear-gradient(110deg,rgba(24,42,79,.72),rgba(17,34,66,.72));color:#dce7ff;box-shadow:0 8px 24px rgba(0,0,0,.12)"><span style="font-size:1.35rem">🤖</span><div><strong style="color:#fff">¡Hola! Soy tu asistente académico.</strong><br><span style="color:#b9c9e9">Escribe tu consulta en el campo inferior o elige uno de los temas para comenzar.</span></div></div>', unsafe_allow_html=True)
 for message in st.session_state.messages:
     with st.chat_message(message["role"], avatar="👤" if message["role"] == "user" else "🤖"):
         st.markdown(message["content"])
